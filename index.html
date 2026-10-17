@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Monad Impact — financiación comunitaria transparente en Monad.">
+  <title>Monad Impact — Funding, together.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/6.13.5/ethers.umd.min.js"></script>
+</head>
+<body>
+  <div class="ambient ambient-one"></div><div class="ambient ambient-two"></div>
+  <header class="topbar">
+    <a class="brand" href="#"><span class="brand-mark">M</span><span>Monad<span class="brand-light">Impact</span></span></a>
+    <nav><a href="#explore">Explore</a><a href="#how">How it works</a></nav>
+    <button id="connectBtn" class="btn btn-connect">Connect wallet <span>↗</span></button>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-copy">
+        <div class="eyebrow"><span class="pulse"></span> COMMUNITY FUNDING ON MONAD</div>
+        <h1>Big ideas.<br><span>Collective impact.</span></h1>
+        <p class="hero-sub">Fund the ideas you believe in. Every contribution is on-chain, transparent, and powered by the community.</p>
+        <div class="hero-actions"><a class="btn btn-primary" href="#explore">Explore campaigns <span>↓</span></a><button id="heroCreateBtn" class="btn btn-ghost">Start a campaign <span>↗</span></button></div>
+        <div class="trust-row"><span class="trust-icon">✓</span> Transparent by design <span class="trust-dot">·</span> Built on Monad</div>
+      </div>
+      <div class="hero-art" aria-label="Abstract Monad Impact artwork">
+        <div class="orbit orbit-outer"></div><div class="orbit orbit-inner"></div>
+        <div class="art-core"><span>MI</span></div>
+        <div class="float-card float-top"><span class="mini-icon">↗</span><div><strong>On-chain</strong><small>Every contribution</small></div></div>
+        <div class="float-card float-bottom"><span class="mini-check">✓</span><div><strong>Community powered</strong><small>Built together, in public</small></div></div>
+        <div class="art-caption">FUND THE FUTURE <span>✳</span></div>
+      </div>
+    </section>
+
+    <section class="stats">
+      <div><span class="stat-label">TOTAL CAMPAIGNS</span><strong id="statCampaigns">—</strong></div>
+      <div><span class="stat-label">TOTAL RAISED</span><strong id="statRaised">— <small>MON</small></strong></div>
+      <div><span class="stat-label">NETWORK</span><strong class="network-stat"><span class="network-dot"></span> Monad Testnet</strong></div>
+    </section>
+
+    <section id="explore" class="section">
+      <div class="section-heading"><div><div class="eyebrow">THE COMMUNITY BOARD</div><h2>Explore campaigns<span class="accent">.</span></h2><p class="section-sub">Discover ideas worth backing. Your contribution goes directly through the smart contract.</p></div><button id="createBtn" class="btn btn-primary">＋ Create campaign</button></div>
+      <div id="notice" class="notice hidden" role="status"></div>
+      <div id="campaignGrid" class="campaign-grid"><div class="loading-card">Loading campaigns from Monad…</div></div>
+      <div id="emptyState" class="empty-state hidden"><div class="empty-symbol">✳</div><h3>The first idea starts here.</h3><p>No campaigns yet. Connect your wallet and create the first one.</p><button id="emptyCreateBtn" class="btn btn-primary">Create first campaign</button></div>
+    </section>
+
+    <section id="how" class="how-section">
+      <div class="eyebrow">SIMPLE BY DESIGN</div><h2>Good ideas deserve<br>an open path forward.</h2>
+      <div class="steps">
+        <article><span class="step-no">01</span><div class="step-icon">✳</div><h3>Launch an idea</h3><p>Set a funding goal, share your vision, and invite the community to participate.</p></article>
+        <article><span class="step-no">02</span><div class="step-icon">↗</div><h3>Back what matters</h3><p>Contribute MON using MetaMask. The contract records the amount transparently.</p></article>
+        <article><span class="step-no">03</span><div class="step-icon">✓</div><h3>Funds follow rules</h3><p>Successful campaigns can withdraw. If a campaign expires below goal, donors can refund.</p></article>
+      </div>
+    </section>
+    <footer><a class="brand" href="#"><span class="brand-mark">M</span><span>monad<span class="brand-light">impact</span></span></a><span>Built for community, on Monad.</span><a href="https://docs.monad.xyz/" target="_blank" rel="noreferrer">Monad docs ↗</a></footer>
+  </main>
+
+  <dialog id="campaignDialog" class="modal">
+    <form id="campaignForm" class="modal-form">
+      <button type="button" class="modal-close" data-close aria-label="Close">×</button>
+      <div class="eyebrow">PUT YOUR IDEA IN MOTION</div><h2>Create a campaign</h2><p class="modal-intro">Tell the community what you want to make possible.</p>
+      <label for="campaignTitle">Campaign title</label><input id="campaignTitle" maxlength="80" required placeholder="e.g. Open-source climate dashboard">
+      <label for="campaignDescription">The story behind it</label><textarea id="campaignDescription" maxlength="1000" required rows="4" placeholder="What are you building and why does it matter?"></textarea>
+      <div class="form-row"><div><label for="campaignGoal">Funding goal (MON)</label><input id="campaignGoal" type="number" min="0.000000000000000001" step="any" required placeholder="25"></div><div><label for="campaignDays">Duration</label><select id="campaignDays"><option value="1">1 day</option><option value="3" selected>3 days</option><option value="7">7 days</option><option value="14">14 days</option><option value="30">30 days</option></select></div></div>
+      <button type="submit" class="btn btn-primary btn-full">Publish campaign ↗</button><p class="fine-print">You'll confirm the transaction in MetaMask. Use testnet MON only.</p>
+    </form>
+  </dialog>
+
+  <dialog id="donateDialog" class="modal">
+    <form id="donateForm" class="modal-form">
+      <button type="button" class="modal-close" data-close aria-label="Close">×</button>
+      <div class="eyebrow">BACK THIS IDEA</div><h2 id="donateTitle">Support campaign</h2><p id="donateDescription" class="modal-intro"></p>
+      <input id="donateCampaignId" type="hidden">
+      <label for="donateAmount">Contribution (MON)</label><input id="donateAmount" type="number" min="0.000000000000000001" step="any" required placeholder="1.0">
+      <button type="submit" class="btn btn-primary btn-full">Contribute with MetaMask ↗</button><p class="fine-print">Your wallet will ask you to approve the transaction.</p>
+    </form>
+  </dialog>
+
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
